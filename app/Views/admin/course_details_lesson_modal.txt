@@ -1,0 +1,30 @@
+<!-- Lesson Modal -->
+<div class="agy-modal-backdrop" id="lessonModal">
+    <div class="agy-modal">
+        <div class="agy-modal-header">
+            <h3 class="agy-modal-title">Add New Lesson</h3>
+            <button class="agy-modal-close" onclick="closeLessonModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="agy-modal-body">
+            <input type="hidden" id="activeSectionId">
+            
+            <div class="mb-4">
+                <label class="agy-label text-dark fw-bold mb-2">Lesson Title</label>
+                <input type="text" id="lessonTitle" class="agy-input" placeholder="e.g. Introduction to Framework, etc.">
+            </div>
+            
+            <div>
+                <label class="agy-label text-dark fw-bold mb-2">Lesson Type</label>
+                <select id="lessonType" class="agy-input">
+                    <option value="video">Video (YouTube/Upload)</option>
+                    <option value="document">Document (PDF)</option>
+                    <option value="text">Article / Text</option>
+                </select>
+            </div>
+        </div>
+        <div class="agy-modal-footer">
+            <button class="agy-btn agy-btn-secondary" onclick="closeLessonModal()">Cancel</button>
+            <button class="agy-btn agy-btn-primary" onclick="saveLesson()">Save Lesson</button>
+        </div>
+    </div>
+</div>

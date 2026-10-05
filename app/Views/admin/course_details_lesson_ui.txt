@@ -1,0 +1,1 @@
+<button class="btn btn-sm btn-outline-secondary w-100" style="border-style: dashed;" onclick="openLessonModal('<?= $sec['id'] ?>')">

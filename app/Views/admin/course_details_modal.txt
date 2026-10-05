@@ -1,0 +1,89 @@
+<!-- Section Modal -->
+<div class="agy-modal-backdrop" id="sectionModal">
+    <div class="agy-modal">
+        <div class="agy-modal-header">
+            <h3 class="agy-modal-title">Add New Section</h3>
+            <button class="agy-modal-close" onclick="closeSectionModal()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="agy-modal-body">
+            <label class="agy-label text-dark fw-bold mb-2">Section Title</label>
+            <input type="text" id="sectionTitle" class="agy-input" placeholder="e.g. Introduction, Module 1, etc.">
+        </div>
+        <div class="agy-modal-footer">
+            <button class="agy-btn agy-btn-secondary" onclick="closeSectionModal()">Cancel</button>
+            <button class="agy-btn agy-btn-primary" onclick="saveSection()">Save Section</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const courseId = '<?= $course['id'] ?>';
+    
+    function openSectionModal() {
+        document.getElementById('sectionTitle').value = '';
+        const modal = document.getElementById('sectionModal');
+        modal.classList.add('show');
+    }
+    
+    function closeSectionModal() {
+        document.getElementById('sectionModal').classList.remove('show');
+    }
+    
+    async function saveSection() {
+        const title = document.getElementById('sectionTitle').value;
+        if(!title.trim()) {
+            AgyToast.error("Title cannot be empty!");
+            return;
+        }
+        
+        try {
+            const formData = new FormData();
+            formData.append('course_id', courseId);
+            formData.append('title', title);
+            
+            const res = await fetch('/admin/program/section/add', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await res.json();
+            
+            if (result.status === 'success') {
+                closeSectionModal();
+                AgyToast.success(result.message);
+                
+                // Add to UI automatically
+                const container = document.getElementById('curriculum-container');
+                const emptyState = document.getElementById('empty-curriculum-state');
+                if(emptyState) emptyState.remove();
+                
+                const html = `
+                <div class="curriculum-section">
+                    <div class="curriculum-section-header">
+                        <h4 class="curriculum-section-title">${result.data.title}</h4>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-sm btn-light border"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-sm btn-light border text-danger"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="curriculum-section-body">
+                        <div class="p-4 text-center text-muted" style="font-size: 0.9rem;">
+                            No lessons in this section yet.
+                        </div>
+                        <div class="p-3 bg-light border-top">
+                            <button class="btn btn-sm btn-outline-secondary w-100" style="border-style: dashed;">
+                                <i class="fas fa-plus"></i> Add Lesson
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+                container.insertAdjacentHTML('beforeend', html);
+            } else {
+                AgyToast.error(result.message);
+            }
+        } catch (e) {
+            AgyToast.error("Failed to connect to server.");
+        }
+    }
+</script>
+
+<?= $this->endSection() ?>

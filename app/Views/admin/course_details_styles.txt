@@ -1,0 +1,72 @@
+<style>
+    /* Curriculum Builder Styles */
+    .curriculum-section {
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        margin-bottom: 24px;
+        background: #fff;
+        overflow: hidden;
+    }
+    .curriculum-section-header {
+        background: #f8fafc;
+        padding: 16px 20px;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .curriculum-section-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+        color: #0f172a;
+        margin: 0;
+    }
+    .curriculum-section-body {
+        padding: 0;
+    }
+    .lesson-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid #f1f5f9;
+        transition: background 0.2s;
+    }
+    .lesson-item:hover { background: #f8fafc; }
+    .lesson-item:last-child { border-bottom: none; }
+    .lesson-icon {
+        width: 36px; height: 36px; border-radius: 8px;
+        display: flex; align-items: center; justify-content: center;
+        background: #f1f5f9; color: #64748b; margin-right: 16px;
+    }
+    
+    /* B2B Custom Modal */
+    .agy-modal-backdrop {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px);
+        z-index: 1050; display: none; align-items: center; justify-content: center;
+        opacity: 0; transition: opacity 0.3s;
+    }
+    .agy-modal {
+        background: #fff; width: 100%; max-width: 500px;
+        border-radius: 20px; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+        transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+    }
+    .agy-modal-backdrop.show { opacity: 1; display: flex; }
+    .agy-modal-backdrop.show .agy-modal { transform: translateY(0); }
+    .agy-modal-header { padding: 24px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+    .agy-modal-title { font-weight: 800; font-size: 1.25rem; margin: 0; color: #0f172a; }
+    .agy-modal-close { background: none; border: none; color: #94a3b8; font-size: 1.25rem; cursor: pointer; transition: color 0.2s; }
+    .agy-modal-close:hover { color: #0f172a; }
+    .agy-modal-body { padding: 24px; }
+    .agy-modal-footer { padding: 20px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 12px; }
+    
+    /* Custom Inputs */
+    .agy-input {
+        width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 12px;
+        font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.95rem; color: #0f172a;
+        background: #f8fafc; transition: all 0.2s; outline: none;
+    }
+    .agy-input:focus { background: #fff; border-color: #94a3b8; box-shadow: 0 0 0 4px #f1f5f9; }
+</style>

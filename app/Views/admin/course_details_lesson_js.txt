@@ -1,0 +1,75 @@
+    function openLessonModal(sectionId) {
+        document.getElementById('lessonTitle').value = '';
+        document.getElementById('lessonType').value = 'video';
+        document.getElementById('activeSectionId').value = sectionId;
+        const modal = document.getElementById('lessonModal');
+        modal.classList.add('show');
+    }
+    
+    function closeLessonModal() {
+        document.getElementById('lessonModal').classList.remove('show');
+    }
+    
+    async function saveLesson() {
+        const title = document.getElementById('lessonTitle').value;
+        const type = document.getElementById('lessonType').value;
+        const sectionId = document.getElementById('activeSectionId').value;
+        
+        if(!title.trim()) {
+            AgyToast.error("Lesson title cannot be empty!");
+            return;
+        }
+        
+        try {
+            const formData = new FormData();
+            formData.append('section_id', sectionId);
+            formData.append('title', title);
+            formData.append('type', type);
+            
+            const res = await fetch('/admin/program/lesson/add', {
+                method: 'POST',
+                body: formData
+            });
+            const result = await res.json();
+            
+            if (result.status === 'success') {
+                closeLessonModal();
+                AgyToast.success(result.message);
+                
+                // Get icon based on type
+                let iconClass = 'fa-play';
+                if(type === 'document') iconClass = 'fa-file-pdf';
+                if(type === 'text') iconClass = 'fa-file-alt';
+                
+                const html = `
+                <div class="lesson-item">
+                    <div class="d-flex align-items-center">
+                        <div class="lesson-icon">
+                            <i class="fas ${iconClass}"></i>
+                        </div>
+                        <div class="fw-bold text-dark">${result.data.title}</div>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-sm btn-light text-muted border"><i class="fas fa-cog"></i></button>
+                    </div>
+                </div>`;
+                
+                // Find the button we clicked
+                const addButton = document.querySelector(`button[onclick="openLessonModal('${sectionId}')"]`);
+                
+                // If there is a "No lessons" message, remove it
+                const noLessonMsg = addButton.parentElement.previousElementSibling;
+                if(noLessonMsg && noLessonMsg.innerHTML.includes('No lessons')) {
+                    noLessonMsg.remove();
+                }
+                
+                // Insert before the Add Lesson button container
+                addButton.parentElement.insertAdjacentHTML('beforebegin', html);
+                
+            } else {
+                AgyToast.error(result.message);
+            }
+        } catch (e) {
+            AgyToast.error("Failed to connect to server.");
+        }
+    }
